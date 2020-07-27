@@ -1,6 +1,8 @@
 "use strict";
 
-// IIFE -Immediately Ivoked Function Expression
+import { Contact } from "./contact.js";
+
+// IIFE -Immediately Invoked Function Expression
 (function(){
 
 
@@ -30,7 +32,7 @@
 
     function validateForm()
     {
-        let contact = new objects.Contact();
+        let contact = new Contact();
 
         let contactForm = document.forms[0];
 
@@ -222,11 +224,11 @@
                 console.log(addressBook);
 
                 let contactList = [];
-                // let contactList = new Array<objects.Contact>();
+                // let contactList = new Array<Contact>();
 
                 for (const record of addressBook) 
                 {
-                    let contact = new objects.Contact();
+                    let contact = new Contact();
                     contact.setContact(record);
                     contactList.push(contact);
                 }
@@ -417,6 +419,9 @@
         console.log(window.navigator); */
 
         initializeSite();
+
+        /* let businessContact = new BusinessContact();
+        console.log(businessContact); */
 
     } 
 
