@@ -1,97 +1,147 @@
 "use strict";
+
 import { Contact } from "./contact.js";
+
 //import { objects.Person } from "./person.js";
 // IIFE -Immediately Invoked Function Expression
-(function () {
-    function highlightActiveLink(id) {
+(function(){
+
+
+    function highlightActiveLink(id:string):void 
+    {
         let navAnchors = document.querySelectorAll("li a");
-        for (const anchor of navAnchors) {
+
+        for (const anchor of navAnchors) 
+        {
             anchor.className = "nav-link";
         }
-        for (const anchor of navAnchors) {
+        
+
+        for (const anchor of navAnchors) 
+        {
+
             let anchorString = anchor.getAttribute("id");
-            if (id === anchorString) {
+            
+
+            if (id === anchorString) 
+            {
                 anchor.className = "nav-link active";
             }
         }
     }
-    function validateForm() {
+
+
+    function validateForm():void
+    {
         let contact = new Contact();
+
         let contactForm = document.forms[0];
+
         contactForm.noValidate = true;
+
         let errorMessage = document.getElementById("errorMessage");
-        let firstName = document.getElementById("firstName");
-        firstName.addEventListener("blur", (event) => {
-            if (firstName.value.length < 2) {
+
+        let firstName = document.getElementById("firstName") as HTMLInputElement;
+        firstName.addEventListener("blur", (event) => 
+        {
+            if(firstName.value.length < 2)
+            {
                 firstName.focus();
                 errorMessage.hidden = false;
-                errorMessage.textContent = "Please enter a Valid First Name with a length of 2 or more characters";
+                errorMessage.textContent = "Please enter a Valid First Name with a length of 2 or more characters"; 
             }
-            else {
+            else
+            {
                 contact.firstName = firstName.value;
                 errorMessage.hidden = true;
             }
         });
-        let lastName = document.getElementById("lastName");
-        lastName.addEventListener("blur", (event) => {
-            if (lastName.value.length < 2) {
+
+        let lastName = document.getElementById("lastName") as HTMLInputElement;
+        lastName.addEventListener("blur", (event) => 
+        {
+            if(lastName.value.length < 2)
+            {
                 lastName.focus();
                 errorMessage.hidden = false;
-                errorMessage.textContent = "Please enter a Valid Last Name with a length of 2 or more characters";
+                errorMessage.textContent = "Please enter a Valid Last Name with a length of 2 or more characters"; 
             }
-            else {
+            else
+            {
                 contact.lastName = lastName.value;
                 errorMessage.hidden = true;
             }
         });
-        let contactNumber = document.getElementById("contactNumber");
-        contactNumber.addEventListener("blur", (event) => {
+
+        let contactNumber = document.getElementById("contactNumber") as HTMLInputElement;
+        contactNumber.addEventListener("blur", (event) =>
+        {
             let contactNumberPattern = /^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/;
-            if (!contactNumberPattern.test(contactNumber.value)) {
+            if(!contactNumberPattern.test(contactNumber.value))
+            {
                 contactNumber.focus();
                 errorMessage.hidden = false;
-                errorMessage.textContent = "Please enter a Valid Contact Number";
+                errorMessage.textContent = "Please enter a Valid Contact Number"; 
             }
-            else {
+            else
+            {
                 contact.contactNumber = contactNumber.value;
                 errorMessage.hidden = true;
             }
+            
         });
-        let emailAddress = document.getElementById("emailAddress");
-        emailAddress.addEventListener("blur", (event) => {
+
+        let emailAddress = document.getElementById("emailAddress") as HTMLInputElement;
+        emailAddress.addEventListener("blur", (event) =>
+        {
             let emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-            if (!emailPattern.test(emailAddress.value)) {
+            if(!emailPattern.test(emailAddress.value))
+            {
                 emailAddress.focus();
                 errorMessage.hidden = false;
-                errorMessage.textContent = "Please enter a Valid email address";
+                errorMessage.textContent = "Please enter a Valid email address"; 
             }
-            else {
+            else
+            {
                 contact.emailAddress = emailAddress.value;
                 errorMessage.hidden = true;
             }
+            
         });
-        let shortMessage = document.getElementById("shortMessage");
+
+        let shortMessage = document.getElementById("shortMessage") as HTMLInputElement;
         shortMessage.addEventListener("blur", (event) => {
             contact.shortMessage = shortMessage.value;
         });
+        
         // creates a "hook" or reference to the button element with an id of "submitButton"
         let submitButton = document.getElementById("submitButton");
-        submitButton.addEventListener("click", (event) => {
+
+        submitButton.addEventListener("click", (event) =>
+        {
             event.preventDefault();
             console.log("Submit Button Clicked");
+
             console.log(contact.toString());
+
             console.log(contact.toJSON());
+
             localStorage.setItem("contact", contact.toString());
             console.log(localStorage.getItem("contact"));
             localStorage.clear();
+
         });
     }
-    function setPageContent(id) {
+
+    function setPageContent(id:string):void
+    {
         document.title = id;
         window.history.pushState("", id, `/${id.toLowerCase()}`);
+
         highlightActiveLink(id);
         // content switcher
-        switch (id) {
+        switch(id)
+        {
             case "Home":
                 HomeContent();
                 break;
@@ -108,187 +158,299 @@ import { Contact } from "./contact.js";
                 AboutContent();
                 break;
         }
+
         loadFooter();
     }
-    function initializeSite() {
+
+    function initializeSite():void
+    {
         console.info("Header Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/partials/header.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let header = document.getElementsByTagName("header")[0];
+
                 let headerData = XHR.responseText;
+
                 header.innerHTML = headerData;
+
                 setPageContent("Home");
+
                 let navLinks = document.querySelectorAll("a");
-                for (const link of navLinks) {
-                    link.addEventListener("click", (event) => {
+
+                for (const link of navLinks) 
+                {
+                    link.addEventListener("click", (event) =>
+                    {
                         event.preventDefault();
+
                         let id = link.getAttribute("id");
-                        setPageContent(id);
+
+                        setPageContent(id)
+                        
                     });
                 }
+
             }
         });
     }
-    function loadAddressBookData() {
+
+    function loadAddressBookData():void
+    {
         console.info("AddressBook Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Data/addressbook.json");
+
         // step 3 - Executes the request
         XHR.send();
+
         // step 4 - register the readystate event 
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
+
                 let dataFile = JSON.parse(XHR.responseText);
                 let addressBook = dataFile.addressBook;
+
                 console.log(addressBook);
+
                 let contactList = [];
                 // let contactList = new Array<Contact>();
-                for (const record of addressBook) {
+
+                for (const record of addressBook) 
+                {
                     let contact = new Contact();
                     contact.setContact(record);
                     contactList.push(contact);
                 }
+
                 console.log(contactList);
+
                 let tableBody = document.getElementById("tableBody");
-                for (const contact of contactList) {
+                for (const contact of contactList) 
+                {
                     let row = document.createElement('tr');
-                    row.innerHTML =
-                        `
+                    row.innerHTML = 
+                    `
                     <td>${contact.firstName}</td>
                     <td>${contact.lastName}</td>
                     <td>${contact.contactNumber}</td>
                     <td>${contact.emailAddress}</td>
-                    `;
+                    `
                     tableBody.appendChild(row);
                 }
+
+               
             }
         });
     }
-    function loadFooter() {
+
+    function loadFooter():void
+    {
         console.info("Footer Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/partials/footer.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let footer = document.getElementsByTagName("footer")[0];
+
                 let footerData = XHR.responseText;
+
                 footer.innerHTML = footerData;
             }
         });
     }
-    function AboutContent() {
+
+    function AboutContent():void
+    {
         console.info("About Content Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/content/about.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let main = document.getElementsByTagName("main")[0];
+
                 let mainData = XHR.responseText;
+
                 main.innerHTML = mainData;
             }
         });
     }
-    function ContactContent() {
+
+    function ContactContent():void
+    {
         console.info("Contact Content Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/content/contact.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let main = document.getElementsByTagName("main")[0];
+
                 let mainData = XHR.responseText;
+
                 main.innerHTML = mainData;
+
                 validateForm();
             }
         });
     }
-    function HomeContent() {
+
+    function HomeContent():void
+    {
         console.info("Home Content Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/content/home.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let main = document.getElementsByTagName("main")[0];
+
                 let mainData = XHR.responseText;
+
                 main.innerHTML = mainData;
             }
         });
     }
-    function ProductsContent() {
+
+    function ProductsContent():void
+    {
         console.info("Products Content Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/content/products.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let main = document.getElementsByTagName("main")[0];
+
                 let mainData = XHR.responseText;
+
                 main.innerHTML = mainData;
+
                 loadAddressBookData();
             }
         });
     }
-    function ServicesContent() {
+
+    function ServicesContent():void
+    {
         console.info("Services Content Loading...");
+
         // step 1 - creates the XHR object
         let XHR = new XMLHttpRequest();
+
         // step 2 - configures the message
         XHR.open("GET", "./Views/content/services.html");
+
         // step 3 - Executes the request
         XHR.send();
-        XHR.addEventListener("readystatechange", function () {
-            if ((XHR.readyState === 4) && (XHR.status === 200)) {
+
+        XHR.addEventListener("readystatechange", function(){
+            if((XHR.readyState === 4) && (XHR.status === 200))
+            {
                 let main = document.getElementsByTagName("main")[0];
+
                 let mainData = XHR.responseText;
+
                 main.innerHTML = mainData;
             }
         });
     }
+
+
     // named function
-    function Start() {
-        console.log('%cApp Started...', "color:white; font-size: 24px;");
+    function Start():void
+    {
+        console.log('%cApp Started...', "color:white; font-size: 24px;");   
+   
         /* console.log(window.history);
         console.log(window.location);
         console.log(window.navigator); */
+
         initializeSite();
+
         /* let businessContact = new BusinessContact();
         console.log(businessContact); */
+
         /* let queryData = location.search;
         console.log(queryData); */
+
+
         let username = "Tom";
         document.cookie = "username=" + encodeURIComponent(username) + "; path=/home";
+        
         sessionStorage.setItem("username", "Tom");
+
         console.log(sessionStorage.getItem("username"));
+
         sessionStorage.clear();
+
         let tom = new objects.Person("Tom", 23);
         tom.saysHello();
-    }
+    } 
+
+
+
     window.addEventListener("load", Start);
+
 })();
-//# sourceMappingURL=app.js.map
+
+
+
+

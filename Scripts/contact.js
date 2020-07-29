@@ -1,18 +1,14 @@
 // IIFE module
 "use strict";
-export class Contact 
-{
-    constructor(firstName="", lastName="", emailAddress="", contactNumber="", shortMessage="") 
-    {
+export class Contact {
+    constructor(firstName = "", lastName = "", emailAddress = "", contactNumber = "", shortMessage = "") {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.contactNumber = contactNumber;
         this.shortMessage = shortMessage;
-    } 
-
-    toString()
-    {
+    }
+    toString() {
         let outputstring = "";
         outputstring += "First Name    : " + this.firstName + "\n";
         outputstring += "Last Name     : " + this.lastName + "\n";
@@ -21,23 +17,17 @@ export class Contact
         outputstring += "Short Message : " + this.shortMessage + "\n";
         return outputstring;
     }
-
-    toJSON()
-    {
-        let JSONObject =
-        {
+    toJSON() {
+        let JSONObject = {
             firstName: this.firstName,
             lastName: this.lastName,
             emailAddress: this.emailAddress,
             contactNumber: this.contactNumber,
-            shortMessage: this.shortMessage, 
+            shortMessage: this.shortMessage,
         };
-
         return JSONObject;
     }
-
-    setContact(JSON_Data)
-    {
+    setContact(JSON_Data) {
         this.firstName = JSON_Data.firstName;
         this.lastName = JSON_Data.lastName;
         this.emailAddress = JSON_Data.emailAddress;
@@ -45,50 +35,4 @@ export class Contact
         this.shortMessage = JSON_Data.shortMessage;
     }
 }
-
-//Better put each class on its own file
-/* export class BusinessContact extends Contact
-{
-    constructor(firstName="", lastName="", emailAddress="", contactNumber="", businessNumber="", shortMessage="")
-    {
-        super(firstName, lastName, emailAddress, contactNumber, shortMessage);
-        this.businessNumber = businessNumber;
-    }
-
-    toString()
-    {
-        let outputstring = "";
-        outputstring += "First Name     : " + this.firstName + "\n";
-        outputstring += "Last Name      : " + this.lastName + "\n";
-        outputstring += "Email Address  : " + this.emailAddress + "\n";
-        outputstring += "Contact Number : " + this.contactNumber + "\n";
-        outputstring += "Business Number: " + this.businessNumber + "\n";
-        outputstring += "Short Message  : " + this.shortMessage + "\n";
-        return outputstring;
-    }
-
-    toJSON()
-    {
-        let JSONObject =
-        {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            emailAddress: this.emailAddress,
-            contactNumber: this.contactNumber,
-            businessNumber: this.businessNumber,
-            shortMessage: this.shortMessage, 
-        };
-
-        return JSONObject;
-    }
-
-    setContact(JSON_Data)
-    {
-        this.firstName = JSON_Data.firstName;
-        this.lastName = JSON_Data.lastName;
-        this.emailAddress = JSON_Data.emailAddress;
-        this.contactNumber = JSON_Data.contactNumber;
-        this.businessNumber = JSON_Data.businessNumber;
-        this.shortMessage = JSON_Data.shortMessage;
-    }
-} */
+//# sourceMappingURL=contact.js.map
