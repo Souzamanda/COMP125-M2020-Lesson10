@@ -442,7 +442,13 @@ import { Contact } from "./contact.js";
         sessionStorage.clear();
 
         let tom = new objects.Person("Tom", 23);
-        tom.saysHello();
+        tom.SaysHello();
+
+        let peter = new objects.Student("Peter", 22, "A123456789");
+        peter.SaysHello();
+        peter.Studies();
+
+        
     } 
 
 
